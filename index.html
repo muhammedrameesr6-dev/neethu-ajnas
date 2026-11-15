@@ -1412,17 +1412,18 @@ function openInvite() {
    the point of the page, not a reward for watching. */
 var heroNamed = false, heroNameTimer = null;
 
-/* The film ends (or gives up): the names settle onto the held frame and the
-   sound is handed over to the BGM. */
-function filmDone() {
-  if (heroNamed) return; heroNamed = true;
-  clearTimeout(heroNameTimer);
+function showHeroNames() {
   var h = document.getElementById("home");
   if (h) h.classList.add("named");
+}
+
+/* The film ends (or gives up): sound is handed over to the BGM. */
+function filmDone() {
+  showHeroNames();
+  if (heroNamed) return; heroNamed = true;
+  clearTimeout(heroNameTimer);
   var sb = document.getElementById("filmSoundBtn");
   if (sb) sb.classList.add("gone");
-  /* the BGM waits for the film: the clip carries its own music, and two tracks
-     over one another is the worst thing this page could do */
   showBgmBar();
   if (window.startBGM) { try { window.startBGM(); } catch(e){} }
 }
@@ -1466,8 +1467,10 @@ function startHeroFilm() {
   v.src = heroVideoUrl;
   try { v.load(); } catch(e){}
   playFilm(v, false);
+  /* Show names early (1.5s) instead of waiting for full 13s video */
+  setTimeout(showHeroNames, 1500);
   clearTimeout(heroNameTimer);
-  heroNameTimer = setTimeout(filmDone, 15000);
+  heroNameTimer = setTimeout(filmDone, 13000);
 }
 function pauseHeroFilm() {
   var v = document.getElementById("heroVideo");
@@ -1489,6 +1492,7 @@ function revealInvitation() {
   /* the BGM bar appears with the BGM itself, when the film has finished */
   rainPetals();
   startHeroFilm();       /* the film only ever loads from here, and it has sound */
+  setTimeout(showHeroNames, 1500);
   bindScrollUI();        /* progress bar + reveal observer — bound once */
   window.scrollTo(0, 0);
 }
