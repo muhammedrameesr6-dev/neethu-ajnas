@@ -170,6 +170,20 @@ body:not(.entered) #petals{display:none}
   border:1px solid rgba(169,128,60,.55);border-radius:40px;padding:15px 34px;cursor:pointer;
   box-shadow:0 16px 34px -14px rgba(30,42,66,.85);transition:transform .25s ease}
 .open-btn:active{transform:scale(.96)}
+
+/* Center photo on Gate screen */
+.gate-center-photo{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);z-index:4;text-align:center;pointer-events:none;transition:opacity .5s ease}
+.gcp-frame{position:relative;display:inline-block;padding:7px;background:#ffffff;border-radius:100px 100px 14px 14px;box-shadow:0 18px 45px -10px rgba(43,53,80,.22),0 0 0 1px rgba(169,128,60,.32);transition:transform .3s ease}
+.gcp-frame::before{content:'';position:absolute;inset:3px;border:1px solid rgba(169,128,60,.38);border-radius:96px 96px 11px 11px;pointer-events:none}
+.gcp-img{display:block;height:clamp(150px,24vh,220px);width:auto;aspect-ratio:2/3;object-fit:cover;object-position:50% 20%;border-radius:94px 94px 9px 9px}
+@media(max-height:720px){
+  .gate-center-photo{top:43%}
+  .gcp-img{height:clamp(120px,21vh,160px)}
+}
+@media(max-height:580px){
+  .gcp-img{height:110px}
+}
+
 @media(max-height:660px){
   .gate-top{padding-top:28px}
   .gate-cta{padding-bottom:32px}
@@ -926,6 +940,13 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
     <div class="gate-eyebrow">A Celebration of Love &amp; New Beginnings</div>
   </div>
 
+  <!-- Center Couple Portrait Card in Gate Screen -->
+  <div class="gate-center-photo">
+    <div class="gcp-frame">
+      <img src="assets/couple-portrait.jpg" alt="Neethu &amp; Ajnas" class="gcp-img">
+    </div>
+  </div>
+
   <div class="gate-cta">
     <div class="gate-names">Neethu<span class="gate-amp">with</span>Ajnas</div>
     <div class="gate-rule"></div>
@@ -1418,9 +1439,11 @@ function openInvite() {
   var cta  = document.querySelector(".gate-cta");
   var top  = document.querySelector(".gate-top");
   var veil = document.querySelector(".gate-veil");
-  if (cta)  cta.style.opacity  = "0";
-  if (top)  top.style.opacity  = "0";
-  if (veil) veil.style.opacity = "0";
+  var photo = document.querySelector(".gate-center-photo");
+  if (cta)   cta.style.opacity   = "0";
+  if (top)   top.style.opacity   = "0";
+  if (veil)  veil.style.opacity  = "0";
+  if (photo) photo.style.opacity = "0";
   /* Do NOT start the BGM here any more - the film speaks first. But DO unlock
      the <audio> element inside this gesture: iOS will not let an element that
      has never been touched by a tap play later from a timer or an event. */
