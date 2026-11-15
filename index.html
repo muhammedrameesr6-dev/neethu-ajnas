@@ -242,8 +242,8 @@ body.admin-on nav{top:34px}
 /* the type block: hidden until the film ends (or the backstop fires) */
 .hero-overlay{position:absolute;left:0;right:0;bottom:clamp(104px,17vh,168px);z-index:3;
   padding:0 26px;text-align:center;
-  opacity:0;transform:translateY(16px);transition:opacity 1.2s ease,transform 1.2s ease}
-.hero.named .hero-overlay{opacity:1;transform:none}
+  opacity:0;transform:translateY(16px);transition:opacity 1.2s ease .6s,transform 1.2s ease .6s}
+body.entered .hero-overlay,.hero.named .hero-overlay{opacity:1;transform:none}
 .hero-overlay::before{content:'';position:absolute;left:0;right:0;bottom:-90px;height:330px;
   z-index:-1;pointer-events:none;
   background:radial-gradient(90% 100% at 50% 62%,rgba(246,251,255,.95) 0%,rgba(246,251,255,.78) 46%,rgba(246,251,255,0) 100%)}
@@ -1489,11 +1489,10 @@ document.addEventListener("visibilitychange", function(){
 function revealInvitation() {
   document.body.classList.add("entered");
   document.getElementById("main").classList.add("show");
-  /* the BGM bar appears with the BGM itself, when the film has finished */
+  showHeroNames();
   rainPetals();
-  startHeroFilm();       /* the film only ever loads from here, and it has sound */
-  setTimeout(showHeroNames, 1500);
-  bindScrollUI();        /* progress bar + reveal observer — bound once */
+  startHeroFilm();
+  bindScrollUI();
   window.scrollTo(0, 0);
 }
 
