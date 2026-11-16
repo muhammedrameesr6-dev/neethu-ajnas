@@ -327,7 +327,7 @@ body.entered .hero-overlay,.hero.named .hero-overlay{opacity:1;transform:none}
 /* The film has its own music, so it needs a way to be silenced. It sits at the
    exact spot the BGM button takes over when the film ends, so the guest sees
    one sound control, not two. */
-#filmSoundBtn{position:absolute;bottom:22px;right:18px;z-index:5;
+#filmSoundBtn{display:none!important;position:absolute;bottom:22px;right:18px;z-index:5;
   width:42px;height:42px;border-radius:50%;cursor:pointer;padding:0;
   display:flex;align-items:center;justify-content:center;
   border:1px solid rgba(169,128,60,.55);color:var(--navy);
@@ -914,7 +914,7 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
 <div id="bg"></div>
 <div id="petals"></div>
 <div id="toast"></div>
-<audio id="bgmAudio" preload="none" loop crossorigin="anonymous"></audio>
+<audio id="bgmAudio" src="assets/wedding-bgm.mp3" preload="auto" loop playsinline></audio>
 
 <!-- ADMIN modal -->
 <div id="adminModal">
@@ -1371,7 +1371,7 @@ var DEFAULT_COVER = "assets/cover-couple.jpg";
 var DEFAULT_FILM  = "assets/hero-clouds-sound.mp4";   /* Cloud Nine design film (template asset) */
 /* Couple asked us to choose: soft & romantic. Library copy, never another couple's R2 path.
    Used only until ADMIN sets a track (upload or library) at BGM_PATH. */
-var DEFAULT_BGM   = "assets/wedding-bgm.m4a";   /* Custom piano instrumental uploaded by couple */
+var DEFAULT_BGM   = "assets/wedding-bgm.mp3";   /* Custom piano instrumental uploaded by couple */
 
 var MAPS_URL    = "https://maps.app.goo.gl/U5H1CjFBiytkkkodA?g_st=iw";
 var WEDDING_UTC = "2026-12-20T11:30:00Z";           /* Sun 20 Dec 2026, 5:00 PM IST (11:30 UTC) */
@@ -1448,10 +1448,16 @@ function openInvite() {
   if (cta)  cta.style.opacity  = "0";
   if (top)  top.style.opacity  = "0";
   if (veil) veil.style.opacity = "0";
-  /* Do NOT start the BGM here any more - the film speaks first. But DO unlock
-     the <audio> element inside this gesture: iOS will not let an element that
-     has never been touched by a tap play later from a timer or an event. */
-  unlockBgm();
+  
+  /* Start song immediately upon opening invitation */
+  try {
+    if (window.startBGM) window.startBGM();
+    else {
+      var a = document.getElementById("bgmAudio");
+      if (a) { a.play().catch(function(){}); }
+    }
+  } catch(e){}
+  
   setTimeout(function(){                 /* let the type clear before the sheet */
     gate.classList.add("hide");
     setTimeout(function(){               /* drop the layer AND the photo (#17) */
@@ -1522,16 +1528,14 @@ function startHeroFilm() {
   var v = document.getElementById("heroVideo");
   if (!v || !heroVideoUrl || v.dataset.started === "1") return;
   v.dataset.started = "1";
-  v.loop = false;
-  v.muted = false;            /* the clip carries its own music - play it */
-  try { v.volume = 1; } catch(e){}
+  v.loop = true;
+  v.muted = true;             /* video is silent background, BGM plays song */
   v.onended = filmDone;
   v.onerror = filmDone;
   v.src = heroVideoUrl;
   try { v.load(); } catch(e){}
-  playFilm(v, false);
-  /* Show names early (1.5s) instead of waiting for full 13s video */
-  setTimeout(showHeroNames, 1500);
+  playFilm(v, true);
+  setTimeout(showHeroNames, 800);
   clearTimeout(heroNameTimer);
   heroNameTimer = setTimeout(filmDone, 13000);
 }
@@ -1686,17 +1690,16 @@ document.addEventListener("visibilitychange", function(){
 var bgmAudio = document.getElementById("bgmAudio");
 var bgmPlaying = false, bgmBound = false;
 window.startBGM = function() {
-  if (!bgmAudio.getAttribute("src")) return;   /* nothing uploaded yet */
-  bgmAudio.play().catch(function(){}); bgmPlaying = true; updateBgmBtn();
+  if (!bgmAudio) return;
+  if (!bgmAudio.getAttribute("src")) bgmAudio.src = DEFAULT_BGM;
+  var p = bgmAudio.play();
+  if (p && p.catch) p.catch(function(err){ console.log("BGM play:", err); });
+  bgmPlaying = true;
+  updateBgmBtn();
+  showBgmBar();
 };
-/* Called from inside the OPEN tap. Playing and immediately pausing the element
-   marks it as user-initiated, so the real play() after the film is allowed. */
-/* Only ever show the music button when there is music. Until the couple
-   uploads a track the control would do nothing, and a dead control on a
-   wedding invite reads as a broken page. */
+
 function showBgmBar() {
-  if (!heroNamed) return;                       /* the film still has the sound */
-  if (!bgmAudio.getAttribute("src")) return;    /* nothing uploaded yet */
   var bar = document.getElementById("bgmBar");
   if (bar) bar.style.display = "block";
 }
