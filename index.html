@@ -385,6 +385,39 @@ section{position:relative;z-index:2}
 .invite-lead{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.7;
   color:#4a5570;max-width:540px;margin-top:26px}
 .invite-lead b{color:var(--ink);font-weight:600}
+
+/* Formal Parents Invitation Card */
+.formal-invite-card{position:relative;max-width:620px;margin:34px auto 24px;
+  background:#ffffff;border:1px solid rgba(169,128,60,.42);
+  border-radius:18px;padding:clamp(26px,5vw,42px) clamp(18px,4.5vw,34px);
+  box-shadow:0 14px 40px -12px rgba(30,42,66,.10),0 0 0 4px rgba(255,255,255,.8);
+  text-align:center}
+.formal-invite-card::before{content:'';position:absolute;inset:5px;
+  border:1px solid rgba(169,128,60,.24);border-radius:13px;pointer-events:none}
+.fic-eyebrow{font-family:'Cinzel',serif;font-size:clamp(10px,2vw,12px);letter-spacing:.38em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:500}
+.fic-intro{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  font-size:clamp(17px,2.8vw,21px);color:#475569;margin-bottom:14px}
+.fic-parents{margin:16px 0 18px}
+.fic-pname{font-family:'Cinzel',serif;font-size:clamp(13px,2.4vw,17px);
+  letter-spacing:.14em;font-weight:600;color:var(--navy);line-height:1.35}
+.fic-amp{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  font-size:22px;color:var(--gold);margin:4px 0}
+.fic-lead{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  font-size:clamp(16px,2.6vw,19.5px);line-height:1.72;color:#334155;
+  max-width:520px;margin:18px auto 20px}
+.fic-children-banner{font-family:'Cinzel',serif;font-size:clamp(16px,3.4vw,22px);
+  font-weight:700;letter-spacing:.16em;color:#1e3a5f;margin:22px 0 20px;
+  padding-bottom:16px;border-bottom:1px solid rgba(169,128,60,.24)}
+.fic-couple-grid{display:flex;align-items:center;justify-content:center;
+  gap:clamp(10px,3.5vw,26px);margin-top:12px}
+.fic-col{flex:1;text-align:center}
+.fic-role{display:block;font-family:'Cinzel',serif;font-size:10px;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+.fic-cname{display:block;font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(18px,3.6vw,25px);font-weight:600;color:var(--navy);line-height:1.2}
+.fic-amp-center{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  font-size:26px;color:var(--gold);line-height:1;margin-top:14px}
 .ev-list{margin:52px auto 0;max-width:560px;display:flex;flex-direction:column;gap:38px}
 .ev-card{position:relative;padding-top:6px}
 .ev-num{position:absolute;top:-14px;right:0;font-family:'Cinzel',serif;
@@ -995,12 +1028,12 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
 <!-- VERSE BAND -->
 <section class="verse-panel" id="verse">
   <div class="hl-bism" style="font-family:'Cinzel',serif;font-size:24px;letter-spacing:4px;color:var(--gold2);">&#10022;</div>
-  <div class="hl-eyebrow">Two Beautiful Beginnings &middot; One Memorable Celebration</div>
+  <div class="hl-eyebrow">With Hearts Full of Joy &middot; Together with Our Families</div>
   <div class="hl-verse">
-    &ldquo;With hearts full of love and happiness, we warmly invite you to celebrate two beautiful milestones in our lives. As we begin this beautiful journey together, your presence and blessings will make our celebrations even more special.&rdquo;
-    <cite>Neethu &amp; Ajnas</cite>
+    &ldquo;Together with their families, Mohanan PP &amp; Praveena K. and Pocker K &amp; Hajira CH cordially invite your esteemed presence and blessings to celebrate the Wedding Reception &amp; Housewarming Ceremony of their beloved children Neethu Mohan &amp; Ajnas CH.&rdquo;
+    <cite>Mohanan &amp; Praveena &middot; Pocker &amp; Hajira</cite>
   </div>
-  <div class="hl-tagline">Two beautiful beginnings, one memorable celebration</div>
+  <div class="hl-tagline">Two families, two beautiful beginnings, one memorable celebration</div>
 
   <div class="hl-date-strip">
     <div class="ds-item"><span class="ds-val">20</span><span class="ds-lbl">Date</span></div>
@@ -1044,10 +1077,38 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
       <p class="s-label">The Celebrations</p>
       <h2 class="s-title">A Celebration of<br><em>Love &amp; New Beginnings</em></h2>
       <div class="s-rule"></div>
-      <p class="invite-lead">
-        With hearts full of love and happiness, we warmly invite you to celebrate two beautiful milestones in our lives &mdash;
-        the <b>Housewarming Ceremony</b> of our new home, <b>ELORA</b>, alongside our <b>Wedding Reception</b>.
-      </p>
+
+      <!-- Formal Parents' Invitation Card -->
+      <div class="formal-invite-card">
+        <p class="fic-eyebrow">With Hearts Full of Joy</p>
+        <p class="fic-intro">Together with their families,</p>
+        
+        <div class="fic-parents">
+          <div class="fic-pname">MOHANAN PP &amp; PRAVEENA K.</div>
+          <div class="fic-amp">&amp;</div>
+          <div class="fic-pname">POCKER K &amp; HAJIRA CH</div>
+        </div>
+
+        <p class="fic-lead">
+          cordially invite your esteemed presence and blessings to celebrate the wedding reception &amp; housewarming ceremony of their beloved children
+        </p>
+
+        <div class="fic-children-banner">
+          NEETHU MOHAN &amp; AJNAS CH
+        </div>
+
+        <div class="fic-couple-grid">
+          <div class="fic-col">
+            <span class="fic-role">The Bride</span>
+            <span class="fic-cname">Neethu Mohan</span>
+          </div>
+          <div class="fic-amp-center">&amp;</div>
+          <div class="fic-col">
+            <span class="fic-role">The Groom</span>
+            <span class="fic-cname">Ajnas CH</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="ev-list">
